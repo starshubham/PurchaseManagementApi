@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34414.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseManagementApi", "PurchaseManagementApi\PurchaseManagementApi.csproj", "{FD985D9B-32AB-48C0-98C2-7281F935D768}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{8CCF3397-E745-479A-B56E-ED4D00C763CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD985D9B-32AB-48C0-98C2-7281F935D768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD985D9B-32AB-48C0-98C2-7281F935D768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD985D9B-32AB-48C0-98C2-7281F935D768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD985D9B-32AB-48C0-98C2-7281F935D768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CCF3397-E745-479A-B56E-ED4D00C763CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CCF3397-E745-479A-B56E-ED4D00C763CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CCF3397-E745-479A-B56E-ED4D00C763CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CCF3397-E745-479A-B56E-ED4D00C763CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D3B758E-7C50-4484-A16E-F8B9C4A5C6D0}
+	EndGlobalSection
+EndGlobal
