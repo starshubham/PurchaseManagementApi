@@ -24,6 +24,14 @@ Create Table Users
 Select * from Persons
 Select * from Users
 
+--Alter Table Users
+--drop constraint FK__Users__personId__300424B4
+
+--ALTER TABLE Users
+--ADD CONSTRAINT FK_Users_Persons
+--FOREIGN KEY (personId) REFERENCES Persons(id);
+
+
 Create table PurchaseOrders
 (
 	code varchar(10) primary key,
@@ -48,3 +56,12 @@ Create table PO_Items
 
 Select * from PurchaseOrders
 Select * from PO_Items
+
+--Alter Table PO_Items
+--drop constraint FK__PO_Items__po_Cod__4BAC3F29
+
+--ALTER TABLE PO_Items
+--ADD CONSTRAINT FK_PO_Items_PurchaseOrders
+--FOREIGN KEY (po_Code) REFERENCES PurchaseOrders(code);
+
+-- Use Ctrl + R  --> to open/close Result window
