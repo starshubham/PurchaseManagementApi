@@ -207,7 +207,7 @@ namespace PurchaseManagementApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("deleteUser")]
+        [HttpDelete("deleteUser/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
             var person = _context.Persons.Where(x => x.id == id).FirstOrDefault();
