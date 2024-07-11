@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Common.Dto
 {
@@ -8,7 +9,7 @@ namespace Common.Dto
         public int PersonId { get; set; }
         [Required]
         public string FirstName { get; set; }
-        public string MiddleName { get; set; }
+        public string? MiddleName { get; set; }
         [Required]
         public string LastName { get; set; }
         [Required]
@@ -17,9 +18,10 @@ namespace Common.Dto
         public string Gender { get; set; }
         [Required]
         public string Salutation { get; set; }
-        public string FullName { get; set; }
-        public string MobNo { get; set; }
-        public string Address { get; set; }
+        [DisplayName("Full Name")]
+        public string? FullName { get; set; }
+        public string? MobNo { get; set; }
+        public string? Address { get; set; }
 
         // User table
         public int UserId { get; set; }

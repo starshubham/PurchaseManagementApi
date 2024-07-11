@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Name": "PurchaseManagementApi\\PurchaseManagementApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Name": "PurchaseManagement.Web\\PurchaseManagement.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
