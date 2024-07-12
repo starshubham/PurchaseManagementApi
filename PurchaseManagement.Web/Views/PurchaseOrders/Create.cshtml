@@ -1,0 +1,142 @@
+﻿@model Common.Dto.PurchaseOrderDto
+
+@{
+    var isEdit = ViewBag.Action == "Edit";
+    ViewData["Title"] = isEdit ? "Edit PurchaseOrder" : "Create PurchaseOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Code" class="control-label"></label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="OrderDate" class="control-label"></label>
+                        <input type="date" asp-for="OrderDate" class="form-control" />
+                        <span asp-validation-for="OrderDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="VendorName" class="control-label"></label>
+                        <input asp-for="VendorName" class="form-control" />
+                        <span asp-validation-for="VendorName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TotalQuantity" class="control-label"></label>
+                        <input type="number" asp-for="TotalQuantity" class="form-control" />
+                        <span asp-validation-for="TotalQuantity" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TotalAmount" class="control-label"></label>
+                        <input type="number" asp-for="TotalAmount" class="form-control" />
+                        <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Comments" class="control-label"></label>
+                        <input asp-for="Comments" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Remarks" class="control-label"></label>
+                        <input asp-for="Remarks" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered mt-2">
+                <thead>
+                <th>Item Name</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Action</th>
+                </thead>
+                <tbody id="itemsTableBody">
+                    @if (Model.Items != null)
+                    {
+                        for (int i = 0; i < Model.Items.Count; i++)
+                        {
+                            <tr>
+                                @if (isEdit)
+                                {
+                                    @Html.HiddenFor(model => model.Items[i].Id)
+                                }
+                                <td><input type="text" asp-for="Items[i].ItemName" class="form-control" /></td>
+                                <td><input type="text" asp-for="Items[i].Unit" class="form-control" /></td>
+                                <td><input type="number" asp-for="Items[i].Quantity" class="form-control" /></td>
+                                <td><input type="number" asp-for="Items[i].Rate" class="form-control" /></td>
+                                <td><input type="number" asp-for="Items[i].Amount" class="form-control" /></td>
+                                <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <button type="button" class="btn btn-secondary" onclick="addRow()">Add Item</button>
+
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="@ViewData["Title"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        function addRow() {
+            const index = document.querySelectorAll('#itemsTableBody tr').length;
+            const template = `
+                        <tr>
+                            <td><input type="text" name="Items[${index}].ItemName" class="form-control" /></td>
+                            <td><input type="text" name="Items[${index}].Unit" class="form-control" /></td>
+                            <td><input type="number" name="Items[${index}].Quantity" class="form-control" /></td>
+                            <td><input type="number" name="Items[${index}].Rate" class="form-control" /></td>
+                            <td><input type="number" name="Items[${index}].Amount" class="form-control" /></td>
+                            <td><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></td>
+                        </tr>
+                    `;
+            document.getElementById('itemsTableBody').insertAdjacentHTML('beforeend', template);
+        }
+
+        function removeRow(button) {
+            button.closest('tr').remove();
+        }
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
