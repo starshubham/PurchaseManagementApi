@@ -4,7 +4,7 @@ namespace Common.Dto
 {
     public class PurchaseOrderDto
     {
-        [Required]
+        [Required(ErrorMessage = "Code is required")]
         public string Code { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
         [Required]
