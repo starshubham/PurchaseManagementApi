@@ -24,8 +24,13 @@ namespace PurchaseManagement.Web.Controllers
         }
 
         // GET: PurchaseOrdersController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(string code)
         {
+            var response = await _client.GetFromJsonAsync<PurchaseOrderDto>(baseUrl + $"/purchaseOrders/getPurchaseOrder/{code}");
+            if (response != null)
+            {
+                return View(response);
+            }
             return View();
         }
 
@@ -38,7 +43,7 @@ namespace PurchaseManagement.Web.Controllers
             };
 
             ViewBag.Action = "Create";
-            return View("EditCreate", model);
+            return View("CreateEdit", model);
         }
 
         // POST: PurchaseOrdersController/Create
@@ -54,11 +59,11 @@ namespace PurchaseManagement.Web.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                return View("EditCreate", purchaseOrders);
+                return View("CreateEdit", purchaseOrders);
             }
             catch
             {
-                return View("EditCreate", purchaseOrders);
+                return View("CreateEdit", purchaseOrders);
             }
         }
 
@@ -66,9 +71,9 @@ namespace PurchaseManagement.Web.Controllers
         public async Task<ActionResult> Edit(string code)
         {
 
-            var response = await _client.GetFromJsonAsync<PurchaseOrderDto>(baseUrl + $"getPurchaseOrder/{code}");
+            var response = await _client.GetFromJsonAsync<PurchaseOrderDto>(baseUrl + $"/purchaseOrders/getPurchaseOrder/{code}");
             ViewBag.Action = "Edit";
-            return View("EditCreate", response);
+            return View("CreateEdit", response);
         }
 
         // POST: PurchaseOrdersController/Edit/5
@@ -78,36 +83,55 @@ namespace PurchaseManagement.Web.Controllers
         {
             try
             {
-                var response = await _client.PutAsJsonAsync(baseUrl + $"/purchaseOrders/edit/{purchaseOrders.Code}", purchaseOrders);
+                var response = await _client.PutAsJsonAsync(baseUrl + $"/purchaseOrders/update/{purchaseOrders.Code}", purchaseOrders);
 
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
                 }
                 ViewBag.Action = "Edit";
-                return View("EditCreate", purchaseOrders);
+                return View("CreateEdit", purchaseOrders);
             }
             catch
             {
                 ViewBag.Action = "Edit";
-                return View("EditCreate", purchaseOrders);
+                return View("CreateEdit", purchaseOrders);
             }
         }
 
         // GET: PurchaseOrdersController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PurchaseOrdersController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string code)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var response = await _client.GetFromJsonAsync<PurchaseOrderDto>(baseUrl + $"/purchaseOrders/getPurchaseOrder/{code}");
+                if (response != null)
+                {
+                    return View(response);
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+        // POST: PurchaseOrdersController/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string code)
+        {
+            try
+            {
+                var response = await _client.DeleteAsync(baseUrl + $"/purchaseOrders/delete/{code}");
+
+                if(response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                return View();
             }
             catch
             {

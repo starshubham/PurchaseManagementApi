@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Common.Dto
 {
@@ -6,14 +7,24 @@ namespace Common.Dto
     {
         [Required(ErrorMessage = "Code is required")]
         public string Code { get; set; }
+
+        [DisplayName("Order Date")]
         public DateTime OrderDate { get; set; } = DateTime.Now;
-        [Required]
+
+        [DisplayName("Vender Name")]
+        [Required(ErrorMessage = "Vender name is required")]
         public string VendorName { get; set; }
-        [Required]
+
+        [DisplayName("Total Quantity")]
+        [Required(ErrorMessage = "Total quantity is required")]
         public int TotalQuantity { get; set; }
-        [Required]
+
+        [DisplayName("Total Amount")]
+        [Required(ErrorMessage = "Total amount is required")]
         public decimal TotalAmount { get; set; }
+
         public string? Comments { get; set; }
+
         public string? Remarks { get; set; }
 
         [Required]
@@ -23,7 +34,8 @@ namespace Common.Dto
     public class PO_ItemDto
     {
         public int Id { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Item name is required")]
         public string ItemName { get; set; }
         [Required]
         public string Unit {  get; set; }
