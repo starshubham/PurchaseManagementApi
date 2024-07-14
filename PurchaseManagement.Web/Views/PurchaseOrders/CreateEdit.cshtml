@@ -1,0 +1,204 @@
+﻿@model Common.Dto.PurchaseOrderDto
+
+@{
+    var isEdit = ViewBag.Action == "Edit";
+    ViewData["Title"] = isEdit ? "Edit Purchase Order" : "Create Purchase Order";
+    ViewData["ButtonName"] = isEdit ? "Update" : "Submit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="@ViewBag.Action">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Code" class="control-label"></label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="VendorName" class="control-label"></label>
+                        <input asp-for="VendorName" class="form-control" />
+                        <span asp-validation-for="VendorName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="OrderDate" class="control-label"></label>
+                        <input type="date" asp-for="OrderDate" class="form-control" />
+                        <span asp-validation-for="OrderDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Comments" class="control-label"></label>
+                        <textarea asp-for="Comments" class="form-control" ></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Remarks" class="control-label"></label>
+                        <textarea asp-for="Remarks" class="form-control" ></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered mt-5">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Item Name</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTableBody">
+                    @if (Model.Items != null)
+                    {
+                        for (int i = 0; i < Model.Items.Count; i++)
+                        {
+                            var srNo = i + 1;
+                            <tr>
+                                @if (isEdit)
+                                {
+                                    @Html.HiddenFor(model => model.Items[i].Id)
+                                }
+                                <td>@srNo</td>
+                                <td><input type="text" asp-for="Items[i].ItemName" class="form-control" /></td>
+                                <td><input type="text" asp-for="Items[i].Unit" class="form-control" /></td>
+                                <td><input type="number" asp-for="Items[i].Quantity" class="form-control" onchange="updateTotals(this)" /></td>
+                                <td><input type="number" asp-for="Items[i].Rate" class="form-control" onchange="updateTotals(this)" /></td>
+                                <td><input type="number" asp-for="Items[i].Amount" class="form-control" readonly /></td>
+                                <td>
+                                    <div style="display: inline-flex;">
+                                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">-</button>
+                                        <button type="button" class="btn btn-info" onclick="addRow()">+</button>
+                                    </div>
+                               </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" style="text-align:center">Total</th>
+                        <th><input type="number" asp-for="TotalQuantity" id="totalQuantity" class="form-control" readonly /></th>
+                        <th></th>
+                        <th><input type="number" asp-for="TotalAmount" id="totalAmount" class="form-control" readonly /></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            
+            
+
+            <div class="form-group mt-3" style="text-align:right">
+                <div style="display:inline-block; margin-right:10px;">
+                    <button class="btn btn-secondary"><a class="btn-close-white" asp-action="Index" onclick="location.href='@Url.Action("Index")">Back to List</a></button>
+                </div>
+                <div style="display:inline-block;">
+                    <input type="submit" value="@ViewData["ButtonName"]" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function addRow() {
+            const index = document.querySelectorAll('#itemsTableBody tr').length;
+            const template = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><input type="text" name="Items[${index}].ItemName" class="form-control" /></td>
+                            <td><input type="text" name="Items[${index}].Unit" class="form-control" /></td>
+                            <td><input type="number" name="Items[${index}].Quantity" class="form-control" onchange="updateTotals(this)" /></td>
+                            <td><input type="number" name="Items[${index}].Rate" class="form-control" onchange="updateTotals(this)" /></td>
+                            <td><input type="number" name="Items[${index}].Amount" class="form-control" readonly /></td>
+                            <td>
+                                <div style="display: inline-flex;">
+                                    <button type="button" class="btn btn-danger" onclick="removeRow(this)">-</button>
+                                    <button type="button" class="btn btn-info" onclick="addRow()">+</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+            document.getElementById('itemsTableBody').insertAdjacentHTML('beforeend', template);
+        }
+
+        function removeRow(button) {
+            const tableBody = document.getElementById('itemsTableBody');
+            const rowCount = tableBody.querySelectorAll('tr').length;
+
+            if (rowCount > 1) {
+                button.closest('tr').remove();
+                refreshSrNo();
+                updateTotals()
+            }
+            else {
+                alert('Cannot delete the last row.');
+            }
+        }
+
+        function refreshSrNo() {
+            const row = document.getElementById("itemsTableBody").querySelectorAll('tr');
+            for (let i = 0; i < row.length; i++) { 
+                row[i].querySelectorAll('td')[0].textContent = i + 1;
+            }
+        }
+
+        function updateTotals(input) {
+            const row = input.closest('tr');
+            const quantityInput = row.querySelector('input[name*="Quantity"]');
+            const rateInput = row.querySelector('input[name*="Rate"]');
+            const amountInput = row.querySelector('input[name*="Amount"]');
+
+            const quantity = parseFloat(quantityInput.value) || 0;
+            const rate = parseFloat(rateInput.value) || 0;
+            const amount = quantity * rate;
+
+            amountInput.value = amount.toFixed(2);
+            rateInput.value = rate.toFixed(2);
+
+            const rows = document.querySelectorAll('#itemsTableBody tr');
+            let totalQuantity = 0;
+            let totalAmount = 0;
+
+            rows.forEach((row) => {
+                const quantityInput = row.querySelector('input[name*="Quantity"]');
+                const rateInput = row.querySelector('input[name*="Rate"]');
+                const amountInput = row.querySelector('input[name*="Amount"]');
+
+                const quantity = parseFloat(quantityInput.value) || 0;
+                const rate = parseFloat(rateInput.value) || 0;
+                const amount = quantity * rate;
+
+                totalQuantity += quantity;
+                totalAmount += amount;
+            })
+
+            document.getElementById('totalQuantity').value = totalQuantity;
+            document.getElementById('totalAmount').value = totalAmount.toFixed(2);
+        }
+        
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

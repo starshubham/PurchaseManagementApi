@@ -180,7 +180,19 @@ namespace PurchaseManagementApi.Controllers
                     existingItem.rate = item.Rate;
                     existingItem.amount = item.Amount;
                 }
-                
+                else
+                {
+                    // Add new item if it does not exist
+                    purchaseOrder.Items.Add(new PO_Item
+                    {
+                        itemName = item.ItemName,
+                        unit = item.Unit,
+                        quantity = item.Quantity,
+                        rate = item.Rate,
+                        amount = item.Amount
+                    });
+                }
+
             }
 
             try
