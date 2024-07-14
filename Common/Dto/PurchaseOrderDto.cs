@@ -35,7 +35,7 @@ namespace Common.Dto
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Item name is required")]
+        [Required]
         public string ItemName { get; set; }
         [Required]
         public string Unit {  get; set; }
