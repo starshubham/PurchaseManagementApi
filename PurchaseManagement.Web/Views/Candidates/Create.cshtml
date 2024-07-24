@@ -1,0 +1,167 @@
+﻿@model Common.Models.Candidate
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Create Candidate</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Name</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FatherName" class="control-label">Father Name</label>
+                        <input asp-for="FatherName" class="form-control" />
+                        <span asp-validation-for="FatherName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="MotherName" class="control-label">Mother Name</label>
+                        <input asp-for="MotherName" class="form-control" />
+                        <span asp-validation-for="MotherName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
+                        <input type="date" asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PermanentAddress" class="control-label">Permanent Address</label>
+                        <textarea asp-for="PermanentAddress" class="form-control" ></textarea>
+                        <span asp-validation-for="PermanentAddress" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CorrespondingAddress" class="control-label">Corresponding Address</label>
+                        <textarea asp-for="CorrespondingAddress" class="form-control" ></textarea>
+                        <span asp-validation-for="CorrespondingAddress" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CountryCode" class="control-label">Country</label>
+                        <select asp-for="CountryCode" class="form-select">
+                            <option value="">Select</option>
+                            @foreach(var item in @ViewBag.Countries)
+                            {
+                                <option value="@item.Code">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="StateId" class="control-label">State</label>
+                        <select asp-for="StateId" class="form-select">
+                            <option value="">Select</option>
+                            @foreach (var item in @ViewBag.States)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DistrictId" class="control-label">District</label>
+                        <select asp-for="DistrictId" class="form-select">
+                            <option value="">Select</option>
+                            @foreach (var item in @ViewBag.Districts)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PinCode" class="control-label">Pincode</label>
+                        <input type="number" asp-for="PinCode" class="form-control" />
+                        <span asp-validation-for="PinCode" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="IDCardTypeId" class="control-label">ID Card</label>
+                        <select asp-for="IDCardTypeId" class="form-control">
+                            <option value="">Select</option>
+                            @foreach (var item in ViewBag.idCardTypes)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="IDCardDetails" class="control-label">ID Card Details</label>
+                        <input asp-for="IDCardDetails" class="form-control" />
+                        <span asp-validation-for="IDCardDetails" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="MobileNo" class="control-label">Mobile No</label>
+                        <input type="number" asp-for="MobileNo" class="form-control" />
+                        <span asp-validation-for="MobileNo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Photo" class="control-label">Photo</label>
+                        <input type="file" asp-for="Photo" class="form-control" />
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

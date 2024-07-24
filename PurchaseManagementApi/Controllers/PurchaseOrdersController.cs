@@ -1,6 +1,5 @@
 ﻿using Common.Dto;
 using Common.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PurchaseManagementApi.DAL;
@@ -139,7 +138,7 @@ namespace PurchaseManagementApi.Controllers
                     Rate = item.rate,
                     Amount = item.amount
                 }).ToList(),
-            }).ToList(); 
+            }).ToList();
 
             return Ok(purchaseOrderDtos);
         }
