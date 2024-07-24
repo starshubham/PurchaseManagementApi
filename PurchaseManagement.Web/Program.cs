@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using PurchaseManagement.Web.Data;
 namespace PurchaseManagement.Web
 {
     public class Program
@@ -5,6 +8,8 @@ namespace PurchaseManagement.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<PurchaseManagementWebContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PurchaseManagementWebContext") ?? throw new InvalidOperationException("Connection string 'PurchaseManagementWebContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

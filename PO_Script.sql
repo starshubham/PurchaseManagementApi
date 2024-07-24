@@ -65,3 +65,92 @@ Select * from PO_Items
 --FOREIGN KEY (po_Code) REFERENCES PurchaseOrders(code);
 
 -- Use Ctrl + R  --> to open/close Result window
+
+
+Create Table Countries
+(
+	Code varchar(5) primary key,
+	Name varchar(20) not null
+)
+
+Insert into Countries(Code, Name) values
+('+91', 'India'),
+('+1', 'USA'),
+('+86', 'China')
+Select * from Countries
+
+
+Create Table States
+(
+	Id int identity(1,1) primary key,
+	Name varchar(50) not null,
+	CountryCode varchar(5) not null foreign key references Countries(Code)
+)
+
+Insert into States(Name, CountryCode) values
+('Delhi', '+91'),
+('Uttar Pradesh', '+91'),
+('Alaska', '+1'),
+('Arizona', '+1'),
+('Shanghai','+86'),
+('Beijing','+86')
+Select * from States
+
+
+Create Table Districts
+(
+	Id int identity(1,1) primary key,
+	Name varchar(50) not null,
+	StateId int not null foreign key references States(Id)
+)
+
+Insert into Districts(Name, StateId) values
+('Central Delhi', 1),
+('East Delhi', 1),
+('Jaunpur', 2),
+('Varanasi', 2),
+('District 1', 3),
+('District 2', 3),
+('District 1', 4),
+('District 2', 4),
+('District 1', 5),
+('District 2', 5),
+('District 1', 6),
+('District 2', 6)
+Select * from Districts
+
+
+Create Table IDCardTypes
+(
+	Id int identity(1,1) primary key,
+	Name varchar(50) not null
+)
+
+Insert into IDCardTypes(Name) values
+('PAN'),
+('Driving License'),
+('Aadhar')
+Select * from IDCardTypes
+
+
+Create Table Candidates
+(
+	Id int identity(1,1) primary key,
+	Name varchar(50) not null,
+	FatherName varchar(50) not null,
+	MotherName varchar(50) not null,
+	DateOfBirth date not null,
+	PermanentAddress varchar(200) not null,
+	CorrespondingAddress varchar(200) not null,
+	CountryCode varchar(5) not null foreign key references Countries(Code),
+	StateId int not null foreign key references States(Id),
+	DistrictId int not null foreign key references Districts(Id),
+	PinCode int not null,
+	MobileNo varchar(10) not null,
+	IDCardTypeId int not null foreign key references IDCardTypes(Id),
+	IDCardDetails varchar(50) not null
+)
+Select * from Candidates
+
+Alter Table Candidates
+Add Photo varbinary(max) not null;
