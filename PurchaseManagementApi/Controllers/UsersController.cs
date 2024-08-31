@@ -106,7 +106,7 @@ namespace PurchaseManagementApi.Controllers
                 address = user.Address
             };
 
-            _context.Add(personData);
+            _context.Persons.Add(personData);
             await _context.SaveChangesAsync(); // Ensure that personData is saved before using its ID
             var personResponse = CreatedAtAction("GetPerson", new { id = personData.id }, personData);
 
@@ -117,7 +117,7 @@ namespace PurchaseManagementApi.Controllers
                 personId = personData.id, // Use the newly created person's ID
             };
 
-            _context.Add(userData);
+            _context.Users.Add(userData);
             await _context.SaveChangesAsync();
 
             // Return the UserDto with the newly created user's details
